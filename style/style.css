@@ -1,0 +1,167 @@
+body {
+	background: #f9e933;
+	font-family: 'Droid Sans', sans-serif;
+}
+
+header, main, footer {
+	min-width: 855px;
+}
+
+header .container, main .container, footer .container {
+	max-width: 855px;
+	margin: auto;
+}
+
+header {
+	background: white;
+	overflow: auto;
+	border-bottom: 1px solid #dddddd;
+	padding: 25px 0 25px 0;
+}
+
+/* CSS Lint told me not to qualify any heading elements 
+"their appearance should be consistent across an entire site"
+*/
+h1 {
+	float: left;
+	width: 570px;
+	font-family: 'Ubuntu', sans-serif;
+	font-style: italic;
+	font-size: 3em;
+	color: #BB3333;
+}
+
+h2 {
+	/* float: left; */
+	width: 570px;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 2em;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+h3 {
+	float: left;
+	width: 570px;
+	font-family: 'Ubuntu', sans-serif;
+	font-size: 1.5em;
+	padding-top: 5%;
+	margin-bottom: 20px;
+}
+
+/* for accordion headings */
+#accordion h3 {
+	width: auto;
+	float: none;
+	padding-top: 0;
+	margin-bottom: 0;
+}
+
+h4 {
+	font-family: 'Ubuntu', sans-serif;
+}
+
+h5 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.25em;
+    margin-bottom: 20px;
+}
+
+header nav {
+	float: right;
+	width: 285px;
+}
+
+a {
+	color: #FF0000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+main {
+	background: white;
+	overflow: auto;
+	padding: 40px;
+}
+
+main .content {
+    padding: 30px 10px 30px 10px;
+    border-radius: 0 5px 5px 5px;
+    background: #eee;
+}
+
+main .content li {
+    border-radius: 5px;
+    padding: 3px;
+    background: #eff;
+    margin: 0 0 10px 0;
+}
+
+.tabs a span{
+	display: inline-block;
+	border-radius: 5px 5px 0 0;
+	width: 100px;
+	margin-right: 10px;
+	text-align: center; 
+	background: #ddd;
+	padding: 5px;
+}
+
+.tabs a span.active {
+	background: #eee;
+}
+
+
+main .rightbulb {
+	float: right;
+	width: 285px;
+}
+
+footer {
+	margin-top: 5%;
+}
+
+footer .contact {
+	float: left;
+	width: 570px;
+}
+
+footer .sitemap {
+	float: right;
+	width: 285px;
+}
+
+#footer-name {
+	color: #bb3333;
+	font-style: italic;
+}
+
+.map-left {
+	float: left;
+}
+
+.map-right {
+	float: right;
+}
+
+.faqs {
+	float: left;
+	margin: 5%;
+}
+
+.Q-A {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+#accordion {
+	width: 570px;
+	overflow: hidden;
+}
+
+#right-col {
+	width: 285px;
+	float: right;
+	display: inline-block;
+}
+
