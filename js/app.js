@@ -78,6 +78,9 @@ var main = function (toDoObjects) {
 			var $element = $(element), //to not keep recreating $(element)
 			$content, // html element inserted.
 			$input, // Input field 
+			$inputLabel, // input field label
+			$tagInput, // Input field for tags
+			$tagLabel, // label for tag input field
 			$button, // and button for 3rd tab
 			i; // iterator index for looping
 			
@@ -164,20 +167,29 @@ var main = function (toDoObjects) {
 			} else if ($element.parent().is(":nth-child(4)")) {
 				console.log("FOURTH TAB CLICKED!");
 				// present an input box and button
-				$input = $("<input type='text'>");
+				$input = $("<input>").addClass("description");
+				$inputLabel = $("<p>").text("Description: ");
+				$tagInput = $("<input>").addClass("tags");
+				$tagLabel = $("<p>").text("Tags: ");
 				$button = $("<button>").text("+");
 				
 				// when clicked, push input value onto toDos array
 				$button.on("click", function() {
 					// but only if the field isn't empty
 					if ($input.val() !== "") {
-						toDos.push($input.val());
-						$input.val(""); // then reset the field
+						var description = $input.val(),
+						tags = $tagInput.val().split(",");
+					
+						toDoObjects.push({"description":description, "tags":tags});
+						toDos.push(description);
+						
+						$input.val(""); // then reset the fields
+						$tagInput.val("");
 					}
 				});
 				
 				// Put the input, then the button, into a div and tack it onto the main content
-				$content = $("<div>").append($input, $button);
+				$content = $("<div>").append($inputLabel, $input, $tagLabel, $tagInput, $button);
 				$("main .content").append($content);
 			}
 			return false;
