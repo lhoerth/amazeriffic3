@@ -91,6 +91,13 @@ main .content {
 }
 
 main .content li {
+	border-radius: 5px;
+	padding: 3px;
+	background: #ddd;
+	margin: 0 0 10px 0;
+}
+
+main .content li {
     border-radius: 5px;
     padding: 3px;
     background: #eff;
