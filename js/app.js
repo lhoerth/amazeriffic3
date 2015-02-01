@@ -6,6 +6,49 @@
  * book. This version reads the todo list information from a JSON file.
  * */
  
+// This function gets array of unique tags from the toDos
+var organizeByTags = function(toDoObjects){
+	console.log("organizeByTags called!");
+	
+	// array of tags
+	var tags = [];
+	
+	// iterate over all toDos to check all their tags
+	toDoObjects.forEach(function(toDo){
+		// iterate over each tag in current toDo to see if we need it
+		toDo.tags.forEach(function(tag){
+			/* make sure the current tag is not already
+			** an element in the array of unique tags before pushing it*/
+			if (tags.indexOf(tag) === -1){
+				tags.push(tag);
+			}
+		});
+	});
+	console.log("Unique tags in list: ");
+	console.log(tags);
+	
+	// build array of tag objects having toDos for corresponding tag
+	var tagObjects = tags.map(function(tag){
+		// empty array for toDos
+		var toDosWithTag = [];
+		toDoObjects.forEach(function(toDo){
+			// check if current tag is member of current toDo
+			if (toDo.tags.indexOf(tag) !== -1){
+				// push it to list of toDos under current tag
+				toDosWithTag.push(toDo.description);
+			}
+		});		
+		
+		// each tag is mapped to a toDo associated with it
+		return {"name": tag, "toDos": toDosWithTag};
+	});
+	console.log("tag objects:");
+	for(i in tagObjects){
+		console.log(tagObjects[i]);
+	}
+	return tagObjects;
+};
+
 var main = function (toDoObjects) {
 	"use strict";
 	
@@ -63,11 +106,65 @@ var main = function (toDoObjects) {
 					$content.append($("<li>").text(todo));
 				});
 				$("main .content").append($content);
-			// 3rd tab:
-			} else if ($element.parent().is(":nth-child(3)")) {
-				console.log("THIRD TAB CLICKED!");
+			// new 3rd (tags) tab:
+			} else if ($element.parent().is(":nth-child(3)")){
+				console.log("tags tab clicked!");
+				 
+				// New way: arrange objects in to headings by tags
+				var organizedByTag = organizeByTags(toDoObjects);
+				
+				/*OLD WAY: 
+				[
+					{
+						"name": "shopping",
+						"toDos": ["Get groceries"]
+					},					
+					{	
+						"name": "chores",
+						"toDos": ["Get groceries", "Take Gracie to the park", "Make Pie"]
+					},
+					{
+						"name": "writing",
+						"toDos": ["Make up some new ToDos", "Finish writing this book"]
+					},
+					{
+						"name": "work",
+						"toDos": ["Make up some new ToDos", "Prep for Monday's class", "Answer emails", "Finish writing this book"]
+					},
+					{
+						"name": "teaching",
+						"toDos": ["Prep for Monday's class"]
+					},
+					{
+						"name": "pets",
+						"toDos": ["Take Gracie to the park"]
+					},
+					{
+						"name": "food",
+						"toDos": ["Make Pie"]
+					}
+				];*/
+				//
+				
+				// Make headings and lists for each tag; append to main section
+				organizedByTag.forEach(function(tag){
+					var $tagName = $("<h3>").text(tag.name),
+						$content = $("<ul>");
+					
+					// list item for each desc in current tag
+					tag.toDos.forEach(function(description){
+						var $li = $("<li>").text(description);
+						$content.append($li);
+					});
+					
+					$("main .content").append($tagName);
+					$("main .content").append($content);
+				});
+			// Was 3rd tab, now 4th tab (Add):
+			} else if ($element.parent().is(":nth-child(4)")) {
+				console.log("FOURTH TAB CLICKED!");
 				// present an input box and button
-				var $input = $("<input type='text'>");
+				$input = $("<input type='text'>");
 				$button = $("<button>").text("+");
 				
 				// when clicked, push input value onto toDos array
@@ -93,85 +190,8 @@ var main = function (toDoObjects) {
 
 /* when the DOM's ready, get the todo objects from 
 ** todos.json and pass them to function main. */
-$(document).ready(function() {
-	$getJSON("todos.json", function(toDoObjects) {
+$(document).ready(function(){
+	$.getJSON("todos.json", function(toDoObjects) {
 		main(toDoObjects);
 	});
-}
-
-
-/**
- * The following code is for the JQueryUI accordian on faq.html
- * */
- 
- $(function() {
-    $( "#accordion" ).accordion({
-      event: "click hoverintent"
-    });
-  });
- 
-  /*
-   * hoverIntent | Copyright 2011 Brian Cherne
-   * http://cherne.net/brian/resources/jquery.hoverIntent.html
-   * modified by the jQuery UI team
-   */
-  $.event.special.hoverintent = {
-    setup: function() {
-      $( this ).bind( "mouseover", jQuery.event.special.hoverintent.handler );
-    },
-    teardown: function() {
-      $( this ).unbind( "mouseover", jQuery.event.special.hoverintent.handler );
-    },
-    handler: function( event ) {
-      var currentX, currentY, timeout,
-        args = arguments,
-        target = $( event.target ),
-        previousX = event.pageX,
-        previousY = event.pageY;
- 
-      function track( event ) {
-        currentX = event.pageX;
-        currentY = event.pageY;
-      };
- 
-      function clear() {
-        target
-          .unbind( "mousemove", track )
-          .unbind( "mouseout", clear );
-        clearTimeout( timeout );
-      }
- 
-      function handler() {
-        var prop,
-          orig = event;
- 
-        if ( ( Math.abs( previousX - currentX ) +
-            Math.abs( previousY - currentY ) ) < 7 ) {
-          clear();
- 
-          event = $.Event( "hoverintent" );
-          for ( prop in orig ) {
-            if ( !( prop in event ) ) {
-              event[ prop ] = orig[ prop ];
-            }
-          }
-          // Prevent accessing the original event since the new event
-          // is fired asynchronously and the old event is no longer
-          // usable (#6028)
-          delete event.originalEvent;
- 
-          target.trigger( event );
-        } else {
-          previousX = currentX;
-          previousY = currentY;
-          timeout = setTimeout( handler, 100 );
-        }
-      }
- 
-      timeout = setTimeout( handler, 100 );
-      target.bind({
-        mousemove: track,
-        mouseout: clear
-      });
-    }
-  };
+});

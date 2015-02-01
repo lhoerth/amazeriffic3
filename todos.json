@@ -1,5 +1,9 @@
 [
 	{
+		"description" : "Make Pie",
+		"tags" : [ "food", "chores" ]
+	},
+	{
 		"description" : "Get groceries",
 		"tags" : [ "shopping", "chores" ]
 	},
