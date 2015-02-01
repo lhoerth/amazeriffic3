@@ -1,23 +1,31 @@
 /**
  * Logan Hoerth - lhoerth@mail.greenriver.edu
- * JavaScript code for "Amazeriffic II" - 1/22/2015
- * Amazeriffic II is the second iteration of the fake website 
+ * JavaScript code for "Amazeriffic 3" - 2/2/2015
+ * This is the third iteration of the fake website 
  * Amazeriffic! from Semmy Purewal's Learning Web App Development 
- * book. It implements interactivity using JavaScript with jQuery.
+ * book. This version reads the todo list information from a JSON file.
  * */
  
-var main = function () {
+var main = function (toDoObjects) {
 	"use strict";
 	
-	// staged todo list
-	var toDos = [
-	"Finish writing this book",
-	"Take Gracie to the park",
-	"Answer emails",
-	"Prep for Monday's class",
-	"Make up some new ToDos",
-	"Get Groceries"
-	];
+	// this was the staged todo list from amazeriffic 2--just an array
+	/*
+	** var toDos = [
+	**"Finish writing this book",
+	**"Take Gracie to the park",
+	**"Answer emails",
+	**"Prep for Monday's class",
+	**"Make up some new ToDos",
+	**"Get Groceries"
+	**];
+	*/
+	
+	// Here's how we'll make a new array still compatible:
+	var toDos = toDoObjects.map(function(toDo){
+		//return just description parts from each todos.json element
+		return toDo.description;
+	});
 	
 	// tab click handling
 	$(".tabs a span").toArray().forEach(function(element) {
@@ -83,7 +91,14 @@ var main = function () {
 	$(".tabs a:first-child span").trigger("click");
 };
 
-main();
+/* when the DOM's ready, get the todo objects from 
+** todos.json and pass them to function main. */
+$(document).ready(function() {
+	$getJSON("todos.json", function(toDoObjects) {
+		main(toDoObjects);
+	});
+}
+
 
 /**
  * The following code is for the JQueryUI accordian on faq.html
